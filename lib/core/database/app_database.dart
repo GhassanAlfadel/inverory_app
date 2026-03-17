@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart' hide Category;
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import 'models.dart';
 
@@ -16,6 +17,16 @@ class AppDatabase {
 
   Future<Database> get database async {
     if (_database != null) return _database!;
+
+    // Initialize FFI for Windows/Desktop
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.windows ||
+            defaultTargetPlatform == TargetPlatform.linux ||
+            defaultTargetPlatform == TargetPlatform.macOS)) {
+      sqfliteFfiInit();
+      databaseFactory = databaseFactoryFfi;
+    }
+
     _database = await _initDatabase();
     return _database!;
   }
