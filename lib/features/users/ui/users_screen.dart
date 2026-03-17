@@ -373,8 +373,9 @@ class _UsersViewState extends State<UsersView> {
           ),
           TextButton(
             onPressed: () {
-              if (user.id != null)
+              if (user.id != null) {
                 context.read<UsersCubit>().deleteUser(user.id!);
+              }
               Navigator.pop(ctx);
             },
             child: const Text('حذف', style: TextStyle(color: Colors.red)),

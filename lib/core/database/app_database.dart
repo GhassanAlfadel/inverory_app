@@ -37,7 +37,7 @@ class AppDatabase {
 
     return await openDatabase(
       path,
-      version: 9,
+      version: 10,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -79,6 +79,7 @@ class AppDatabase {
         categoryId INTEGER NOT NULL,
         expiryDate TEXT,
         description TEXT,
+        indications TEXT,
         warnings TEXT,
         imagePath TEXT,
         processor TEXT,
@@ -357,6 +358,13 @@ class AppDatabase {
       await db.execute('ALTER TABLE products ADD COLUMN model TEXT');
       await db.execute('ALTER TABLE products ADD COLUMN color TEXT');
       await db.execute('ALTER TABLE products ADD COLUMN isTouchScreen INTEGER');
+    }
+    if (oldVersion < 10) {
+      var tableInfo = await db.rawQuery('PRAGMA table_info(products)');
+      var columns = tableInfo.map((e) => e['name']).toList();
+      if (!columns.contains('indications')) {
+        await db.execute('ALTER TABLE products ADD COLUMN indications TEXT');
+      }
     }
   }
 

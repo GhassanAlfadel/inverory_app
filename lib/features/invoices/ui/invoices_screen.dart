@@ -130,9 +130,7 @@ class InvoicesView extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: SingleChildScrollView(
             child: DataTable(
-              headingRowColor: MaterialStateProperty.all(
-                const Color(0xFFF8FAFC),
-              ),
+              headingRowColor: WidgetStateProperty.all(const Color(0xFFF8FAFC)),
               columns: [
                 DataColumn(label: Text('رقم الفاتورة', style: _headerStyle())),
                 DataColumn(
