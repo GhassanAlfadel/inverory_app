@@ -1,0 +1,52 @@
+name: Windows Build
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Enable Windows Desktop
+        run: flutter config --enable-windows-desktop
+
+      - name: Build Windows
+        run: flutter build windows --release
+
+      - name: List Build Directory (Debug)
+        shell: pwsh
+        run: Get-ChildItem -Path build -Recurse
+
+      - name: Create Build Archive
+        shell: pwsh
+        run: |
+          $path = "build\windows\x64\runner\Release"
+          if (-not (Test-Path $path)) {
+            $path = "build\windows\runner\Release"
+          }
+          if (-not (Test-Path $path)) {
+            Write-Error "Build directory not found at $path or fallback."
+            exit 1
+          }
+          Compress-Archive -Path "$path\*" -DestinationPath inverory_app_windows.zip
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-release
+          path: inverory_app_windows.zip
