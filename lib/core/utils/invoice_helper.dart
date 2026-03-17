@@ -15,7 +15,7 @@ class InvoiceHelper {
   }) async {
     final pdf = pw.Document();
 
-    // Load fonts from local assets for offline support
+    // Load fonts from local assets for offline supportt
     // Note: We are using a highly compatible Arabic font to avoid parsing errors
     final regularFontData = await rootBundle.load(
       'assets/fonts/Arimo-Regular.ttf',
