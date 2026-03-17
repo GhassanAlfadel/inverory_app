@@ -18,9 +18,8 @@ class POSScreen extends StatelessWidget {
         1; // Temporary: Default to admin ID since auth system is simplified
 
     return BlocProvider(
-      create: (context) =>
-          POSCubit(RepositoryProvider.of<AppDatabase>(context))
-            ..checkShift(userId),
+      create: (context) => POSCubit(RepositoryProvider.of<AppDatabase>(context))
+        ..checkShift(userId),
       child: const POSView(),
     );
   }
@@ -359,8 +358,8 @@ class _POSViewState extends State<POSView> {
                         context.read<POSCubit>().setCategory(v);
                         // Refresh search with current query
                         context.read<POSCubit>().searchProducts(
-                          _searchController.text,
-                        );
+                              _searchController.text,
+                            );
                       },
                     ),
                   ),
@@ -456,12 +455,10 @@ class _POSViewState extends State<POSView> {
     final bool isLowStock = p.stock <= 5;
     final bool isOutOfStock = p.stock <= 0;
 
-    final statusColor = isOutOfStock
-        ? Colors.red
-        : (isLowStock ? Colors.orange : Colors.green);
-    final statusText = isOutOfStock
-        ? 'غير متوفر'
-        : (isLowStock ? 'كمية محدودة' : 'متوفر');
+    final statusColor =
+        isOutOfStock ? Colors.red : (isLowStock ? Colors.orange : Colors.green);
+    final statusText =
+        isOutOfStock ? 'غير متوفر' : (isLowStock ? 'كمية محدودة' : 'متوفر');
 
     return InkWell(
       onTap: isOutOfStock
@@ -647,7 +644,7 @@ class _POSViewState extends State<POSView> {
             ),
           ),
           DataTable(
-            headingRowColor: MaterialStateProperty.all(const Color(0xFFF8FAFC)),
+            headingRowColor: WidgetStateProperty.all(const Color(0xFFF8FAFC)),
             columns: [
               DataColumn(
                 label: Text(
@@ -725,9 +722,9 @@ class _POSViewState extends State<POSView> {
                       children: [
                         _buildQtyBtn(Icons.remove, () {
                           context.read<POSCubit>().updateQuantity(
-                            item.product.id!,
-                            item.quantity - 1,
-                          );
+                                item.product.id!,
+                                item.quantity - 1,
+                              );
                         }),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 12.w),
@@ -738,9 +735,9 @@ class _POSViewState extends State<POSView> {
                         ),
                         _buildQtyBtn(Icons.add, () {
                           context.read<POSCubit>().updateQuantity(
-                            item.product.id!,
-                            item.quantity + 1,
-                          );
+                                item.product.id!,
+                                item.quantity + 1,
+                              );
                         }),
                       ],
                     ),
@@ -759,8 +756,8 @@ class _POSViewState extends State<POSView> {
                     IconButton(
                       icon: const Icon(Icons.delete_outline, color: Colors.red),
                       onPressed: () => context.read<POSCubit>().removeFromCart(
-                        item.product.id!,
-                      ),
+                            item.product.id!,
+                          ),
                     ),
                   ),
                 ],
@@ -835,8 +832,8 @@ class _POSViewState extends State<POSView> {
           TextField(
             controller: _discountController,
             onChanged: (v) => context.read<POSCubit>().updateDiscount(
-              double.tryParse(v) ?? 0.0,
-            ),
+                  double.tryParse(v) ?? 0.0,
+                ),
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               suffixText: 'SDG',
