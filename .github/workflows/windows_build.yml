@@ -31,7 +31,7 @@ jobs:
       - name: Create Build Archive
         shell: pwsh
         run: |
-          Compress-Archive -Path build\windows\runner\Release\* -DestinationPath inverory_app_windows.zip
+          Compress-Archive -Path build\windows\runner\Debug\* -DestinationPath build\windows\runner\build.zip
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
